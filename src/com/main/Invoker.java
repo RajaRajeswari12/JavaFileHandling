@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 
 import com.exception.DirectoryNotExistException;
+import com.exception.FolderDeletionException;
 
 public class Invoker {
 
@@ -75,10 +76,19 @@ public class Invoker {
 		}
 		fileOperationMenu();
 	}
-
+	
+	private String getValidFileName() {
+		String fileNameToBeValidate = getUserInput.next();
+		while(fileNameToBeValidate.matches(".*[:/\"?<>\\\\|*]+.*")) {
+			System.out.println("Kindly avoid the following characters [: / \" ? < > \\ | * ] in the fileName. Give a valid FileName");
+			fileNameToBeValidate = getUserInput.next();
+		}
+		
+		return fileNameToBeValidate;
+	}
 	public void addFile() {
 		System.out.println("Enter a FileName to be created: ");
-		String newFileName = getUserInput.next();
+		String newFileName = getValidFileName() ;
 		try {
 			fileOpr.createFile( newFileName);			
 			System.out.println("Do you want to open the newly created file? y/n");
@@ -130,7 +140,7 @@ public class Invoker {
 
 	private void searchFile() {
 		System.out.println("Enter the File Name to search : ");
-		String fileNm = getUserInput.next();
+		String fileNm = getValidFileName();
 		boolean searchResult =	fileOpr.searchFile(fileNm);
 		if(searchResult) {
 			System.out.println("Do you want to open the searched file? y/n");			
@@ -161,14 +171,17 @@ public class Invoker {
 
 	private void deleteFile() {
 		System.out.println("Enter File Name to be deleted : ");
-		String fileNameToBeDeleted = getUserInput.next();
+		String fileNameToBeDeleted = getValidFileName();
 		try {
 			fileOpr.deleteFile(fileNameToBeDeleted);
 		} catch (NoSuchFileException e) {
 			System.err.println(e.getMessage());
 			jumpToMainMenu();
+		} catch (FolderDeletionException e) {
+			System.err.println(e.getMessage());
+			deleteFile();
 		}catch(IOException e) {
-			System.err.println(e.getMessage() + "Inside IO");
+			System.err.println(e.getMessage());
 			jumpToMainMenu();
 		}
 		fileOperationMenu();
@@ -251,6 +264,8 @@ public class Invoker {
 				getDestFolderPath();
 			}
 			filesList = fileOpr.getFileList();
+			
+			
 
 		
 	}

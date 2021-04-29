@@ -1,5 +1,9 @@
 package com.sorting;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class StringQuickSort {
 	/**
 	 * Swap Method is used to swap the files in the given List.
@@ -102,7 +106,33 @@ public class StringQuickSort {
 			index++;
 		}
 	}*/
-
-
+	public static void main(String[] args) {
+		ArrayList<String> fileNameList = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter folder path");
+		String folderPath = sc.next();
+		File f = new File(folderPath);
+		String[] fileNmArray = f.list();
+/*		for(String fileName:fileNmArray) {
+			fileNameList.add(fileName);
+		}*/
+		System.out.println("Before Sorting ");
+		for(String fileName:fileNmArray) {
+			System.out.print(fileName);
+		}
+		System.out.println("___________________________");
+		quickSort(fileNmArray, 0, fileNmArray.length-1,"Descending");
+		System.out.println("After Descending Sorting ");
+		for(String fileName:fileNmArray) {
+			System.out.print(fileName);
+		}
+		System.out.println("___________________________");
+		quickSort(fileNmArray, 0, fileNmArray.length-1,"Ascending");
+		System.out.println("After Ascending Sorting ");
+		for(String fileName:fileNmArray) {
+			System.out.print(fileName);
+		}
+		System.out.println("___________________________");
+	}
 
 }

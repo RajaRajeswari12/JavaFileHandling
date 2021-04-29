@@ -1,16 +1,16 @@
 package com.sorting;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 public class QuickSort {
 
-	public static void quickSort(LinkedList<String> fileNameList,int lowIndex,int topIndex,String ordering) {
+	public static ArrayList<String> quickSort(ArrayList<String> fileNameList,int lowIndex,int topIndex,String ordering) {
 		if(lowIndex >= topIndex) {
-			return;
+			return fileNameList;
 		}
 		int pivotIndex = 0;
 		if(ordering.equalsIgnoreCase("Ascending")) {
@@ -21,9 +21,11 @@ public class QuickSort {
 
 		quickSort(fileNameList,0,pivotIndex,ordering);
 		quickSort(fileNameList,pivotIndex+1,topIndex,ordering);
+		
+		return fileNameList;
 	}
 
-		public static int sortPartitionInAscending(LinkedList<String> fileNameList,int lowIndex,int topIndex) {
+		public static int sortPartitionInAscending(ArrayList<String> fileNameList,int lowIndex,int topIndex) {
 		int partitionLowIndex = lowIndex;
 		int partitionTopIndex = topIndex;
 		String pivot = fileNameList.get(partitionLowIndex);
@@ -46,7 +48,7 @@ public class QuickSort {
 		return partitionTopIndex;
 	}
 
-	public static int sortPartitionInDescending(LinkedList<String> fileNameList,int lowIndex,int topIndex) {
+	public static int sortPartitionInDescending(ArrayList<String> fileNameList,int lowIndex,int topIndex) {
 		int partitionLowIndex = lowIndex;
 		int partitionTopIndex = topIndex;
 	
@@ -72,7 +74,7 @@ public class QuickSort {
 
 	}
 
-	private static void swap(LinkedList<String> fileNameList, int partitionLowIndex, int partitionTopIndex) {
+	private static void swap(ArrayList<String> fileNameList, int partitionLowIndex, int partitionTopIndex) {
 		String topIndexValue = fileNameList.get(partitionTopIndex);
 		String lowIndexValue = fileNameList.get(partitionLowIndex);
 		fileNameList.set(partitionLowIndex, topIndexValue);
@@ -82,7 +84,7 @@ public class QuickSort {
 
 
 	public static void main(String[] args) {
-		LinkedList<String> fileNameList = new LinkedList<>();
+		ArrayList<String> fileNameList = new ArrayList<>();
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter folder path");
 		String folderPath = sc.next();

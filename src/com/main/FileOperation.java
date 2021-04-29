@@ -11,28 +11,29 @@ import java.nio.file.NotDirectoryException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.ListIterator;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
 
 import com.exception.DesktopNotSupportedException;
 import com.exception.DirectoryNotExistException;
-
+import com.exception.FolderDeletionException;
 import com.sorting.BinarySearchInLinkedList;
 import com.sorting.QuickSort;
+import com.sorting.StringQuickSort;
 
 public class FileOperation {
 	private String[] fileNameArray;
 	private LinkedList<String> fileNameList;
-	
-	
+
+
 	public void setFileNameList(String[] fileNameArray) {
 		fileNameList = new LinkedList<>();
 		for(String fileName:fileNameArray) {
 			fileNameList.add(fileName);
-		}
-		
+		}		
 	}
-	public void setFilesNameList(String[] fileNameArray) {
-		this.fileNameArray = fileNameArray;
-	}
+
 
 	private String folderPath;
 	private File folderName ;
@@ -64,7 +65,7 @@ public class FileOperation {
 
 		if(create.createNewFile()) {
 			fileNameList.add(create.getName());
-//			updateFilesNameList(create.getName());
+			//			updateFilesNameList(create.getName());
 
 			System.out.println("File Created Successfully");
 		}else {
@@ -78,16 +79,21 @@ public class FileOperation {
 	 * @throws DirectoryNotExistException 
 	 * @throws IOException 
 	 * @throws NoSuchFileException 
+	 * @throws FolderDeletionException 
 	 * @throws NotDirectoryException 
 	 *
 	 */
-	void deleteFile(String fileNameToBeDeleted) throws  NoSuchFileException, IOException {
-
-		if( Files.deleteIfExists(Paths.get(folderPath+"\\"+fileNameToBeDeleted))) {
-			fileNameList.remove(fileNameToBeDeleted);
+	void deleteFile(String fileNameToBeDeleted) throws  NoSuchFileException, IOException, FolderDeletionException {
+		File fileToDelete = new File(folderPath+"\\"+fileNameToBeDeleted);
+		if(fileToDelete.isFile()) {
+			if( Files.deleteIfExists(Paths.get(folderPath+"\\"+fileNameToBeDeleted))) {
+				fileNameList.remove(fileNameToBeDeleted);
+			}else {
+				throw new NoSuchFileException("File does not Exist");
+			}          
 		}else {
-			throw new NoSuchFileException("File does not Exist");
-		}          
+			throw new FolderDeletionException("Can't Delete Folder. ");
+		}
 
 		System.out.println("Deletion successful.");
 	}
@@ -112,12 +118,22 @@ public class FileOperation {
 	 *
 	 */
 	void display() {
-		int index =01;
+
+		/*ListIterator<String> iterateList = (ListIterator<String>) fileNameList.iterator();
+		if(fileNameList.size() == 0) {
+			System.out.println("\n \t Folder is Empty !!!!!!!!!");
+		}else {
+			while(iterateList.hasNext()) {
+				System.out.println((iterateList.nextIndex()+1)+"--> "+iterateList.next());
+
+			}
+		}*/
+		int index = 1;
 		if(fileNameArray.length == 0) {
 			System.out.println("\n \t Folder is Empty !!!!!!!!!");
 		}else {
-			for(String element:fileNameList) {
-				System.out.println(index+"--> "+element);
+			for(String fileName:fileNameArray) {
+				System.out.println(index+".) "+fileName);
 				index++;
 			}
 		}
@@ -158,31 +174,47 @@ public class FileOperation {
 	}
 
 	public void sortByAscending() {
+		fileNameArray = getFilesNameArray(fileNameList);
 		int listLength = fileNameArray.length-1;
+		System.out.println("List Length"+listLength);
 		if(listLength == -1) {
 			display();
 		}else
-			QuickSort.quickSort(fileNameList,0, listLength, "Ascending");
+			StringQuickSort.quickSort(fileNameArray,0, listLength, "Ascending");
 
 	}
 
 	public void sortByDescending() {
+		fileNameArray = getFilesNameArray(fileNameList);
 		int listLength = fileNameArray.length-1;
 		if(listLength == -1) {
 			display();
 		}else
-			QuickSort.quickSort(fileNameList,0, listLength, "Descending");
+			StringQuickSort.quickSort(fileNameArray,0, listLength, "Descending");
 
 	}
-	
+	public String[] getFilesNameArray(LinkedList<String> fileNameList) {
+		int index = 0;
+		String[]	fileNameArray = new String[fileNameList.size()];
+		for(String fileName:fileNameList) {
+			fileNameArray[index] = fileName; 
+			index++;
+		}
+		return fileNameArray;
+	}
+
 	// --------------------------- Not Used  Methods------------------------------//
 
+	/*public void setFilesNameList(String[] fileNameArray) {
+		this.fileNameArray = fileNameArray;
+	}
+
 	private void deleteFileNameFromList(String fileNameToBeDeleted) {
-	
+
 		String[] updatedFilesNameList = new String[fileNameArray.length-1] ;
 		boolean foundFile = false;
 		int indexToBeDeleted = Arrays.binarySearch(fileNameArray, fileNameToBeDeleted);
-		
+
 		if(indexToBeDeleted == fileNameArray.length-1) {
 			for(int index =0;index < fileNameArray.length-1 ;index++) {
 				updatedFilesNameList[index]=fileNameArray[index];
@@ -198,7 +230,7 @@ public class FileOperation {
 
 			}
 		}
-		
+
 		setFilesNameList(updatedFilesNameList);
 
 	}
@@ -212,5 +244,5 @@ public class FileOperation {
 
 	}
 
-
+	 */
 }
