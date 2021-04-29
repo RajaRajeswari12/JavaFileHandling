@@ -65,8 +65,7 @@ public class FileOperation {
 
 		if(create.createNewFile()) {
 			fileNameList.add(create.getName());
-			//			updateFilesNameList(create.getName());
-
+			sortByAscending(); //Sort the list after adding New File
 			System.out.println("File Created Successfully");
 		}else {
 			throw new FileAlreadyExistsException("File already exists.Kindly Enter another Name");

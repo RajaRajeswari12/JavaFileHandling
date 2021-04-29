@@ -246,7 +246,11 @@ public class Invoker {
 
 
 	private void endFunction() {
+		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
 		System.out.println("Thanks for using this File Handling Application ");
+		System.out.println("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
+		
+		
 	}
 
 	private void getDestFolderPath() {
