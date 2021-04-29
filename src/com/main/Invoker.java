@@ -5,9 +5,10 @@ import java.nio.file.AccessDeniedException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.NotDirectoryException;
+import java.util.LinkedList;
 import java.util.Scanner;
 
-import com.exception.DesktopNotSupportedException;
+
 import com.exception.DirectoryNotExistException;
 
 public class Invoker {
@@ -15,7 +16,7 @@ public class Invoker {
 
 	MenuOptions ovb = new MenuOptions();
 	FileOperation fileOpr = new FileOperation();
-	String[] filesList;
+	LinkedList<String> filesList;
 	String linebreak = "\n *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \n";
 	Scanner getUserInput;
 	public Invoker() {
