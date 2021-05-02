@@ -1,4 +1,4 @@
-package com.notrequired;
+package com.sorting;
 
 public class StringBinarySearch {
 	/**
